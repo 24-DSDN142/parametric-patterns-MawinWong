@@ -9,46 +9,988 @@ Your final settings.txt will look something like this when you are finished:
 
 Wallpaper 1:
 
-//your parameter variables go here!
-let rect_width  = 20;
-let rect_height = 20;
-let paramter1 = 10;
-let paramter2 = true;
-let paramter3 = 50; 
-let paramter4 = 0; 
-let paramter5 = 60;
+let colors = ["#98fb98", "#00ff7f", "#32cd32"]; // Green colors
+let mySeed;
+let patterns = [];
+let appleImg;
 
-function setup_wallpaper(pWallpaper) {
-  pWallpaper.output_mode(GRID_WALLPAPER);
-  pWallpaper.resolution(NINE_LANDSCAPE);
-  pWallpaper.show_guide(false); //set this to false when you're ready to print
+function preload() {
+  appleImg = loadImage('https://static.vecteezy.com/system/resources/previews/008/506/545/original/apple-fruit-cartoon-png.png'); // Placeholder image for the apple
+}
 
-  //Grid settings
-  pWallpaper.grid_settings.cell_width  = 100;
-  pWallpaper.grid_settings.cell_height = 100;
-  pWallpaper.grid_settings.row_offset  = 50;
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; 
+  let mySize = 200;
+
+  randomSeed(mySeed); 
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255);
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); 
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize; yy <= height - mySize; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = generateColor();
+    this.color2 = generateColor();
+    randomSeed(mySeed + x + y); 
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+    noFill();
+
+    fill(this.color1);
+    arc(-this.size / 2, 0, this.size / 2, this.size / 2, 3 * PI / 2, PI / 2);
+    arc(this.size / 2, 0, this.size / 2, this.size / 2, PI / 2, 3 * PI / 2);
+    circle(0, 0, this.size / 3);
+
+    fill(this.color2);
+    arc(-this.size / 2, 0, this.size / 4, this.size / 4, 3 * PI / 2, PI / 2);
+    arc(this.size / 2, 0, this.size / 4, this.size / 4, PI / 2, 3 * PI / 2);
+    arc(0, -this.size / 2, this.size / 4, this.size / 4, 2 * PI, PI);
+    arc(0, this.size / 2, this.size / 4, this.size / 4, PI, 2 * PI);
+    
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); 
+    
+    fill(colors[0]);
+    arc(-this.size / 3, 0, this.size / 6, this.size / 6, 3 * PI / 2, PI / 2);
+    
+    fill(colors[1]);
+    arc(this.size / 3, 0, this.size / 6, this.size / 6, PI / 2, 3 * PI / 2);
+    
+    fill(colors[2]);
+    circle(0, this.size / 4, this.size / 6);
+
+    pop();
+  }
+}
+
+function generateColor() {
+  randomSeed(mySeed); 
+  return colors[floor(random(0, colors.length))];
 }
 
 /////////////////////////////////
 
 Wallpaper 2:
 
-//your parameter variables go here!
-let rect_width  = 10;
-let rect_height = 10;
-let paramter1 = 20;
-let paramter2 = false;
-let paramter3 = 50; 
-let paramter4 = 80; 
-let paramter5 = 30;
+let colors = ["#98fb98", "#00ff7f", "#32cd32"]; // Green colors
+let mySeed;
+let patterns = [];
+let appleImg;
 
-function setup_wallpaper(pWallpaper) {
-  pWallpaper.output_mode(GRID_WALLPAPER);
-  pWallpaper.resolution(NINE_LANDSCAPE);
-  pWallpaper.show_guide(false); //set this to false when you're ready to print
+function preload() {
+  appleImg = loadImage('https://static.vecteezy.com/system/resources/previews/008/506/545/original/apple-fruit-cartoon-png.png'); // Placeholder image for the apple
+}
 
-  //Grid settings
-  pWallpaper.grid_settings.cell_width  = 100;
-  pWallpaper.grid_settings.cell_height = 100;
-  pWallpaper.grid_settings.row_offset  = 0;
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = generateColor();
+    this.color2 = generateColor();
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Main circle
+    fill(this.color1);
+    ellipse(0, 0, this.size, this.size);
+
+    // Smaller circles and arcs for added creativity
+    fill(this.color2);
+    ellipse(-this.size / 4, -this.size / 4, this.size / 3, this.size / 3);
+    ellipse(this.size / 4, -this.size / 4, this.size / 3, this.size / 3);
+    ellipse(-this.size / 4, this.size / 4, this.size / 3, this.size / 3);
+    ellipse(this.size / 4, this.size / 4, this.size / 3, this.size / 3);
+
+    fill(colors[0]);
+    arc(-this.size / 2, 0, this.size / 2, this.size / 2, 3 * PI / 2, PI / 2);
+    fill(colors[1]);
+    arc(this.size / 2, 0, this.size / 2, this.size / 2, PI / 2, 3 * PI / 2);
+
+    fill(colors[2]);
+    ellipse(0, 0, this.size / 4, this.size / 4);
+
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Apple image in the center
+
+    pop();
+  }
+}
+
+function generateColor() {
+  randomSeed(mySeed); // Ensure colors are consistent
+  return colors[floor(random(0, colors.length))];
+}
+
+/////////////////////////////////
+
+Wallpaper 3:
+
+let colors = ["#98fb98", "#00ff7f", "#32cd32"]; // Green colors
+let mySeed;
+let patterns = [];
+let appleImg;
+
+function preload() {
+  appleImg = loadImage('https://static.vecteezy.com/system/resources/previews/008/506/545/original/apple-fruit-cartoon-png.png'); // Placeholder image for the apple
+}
+
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 4321; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = generateColor();
+    this.color2 = generateColor();
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Main circle
+    fill(this.color1);
+    ellipse(0, 0, this.size, this.size);
+
+    // Smaller circles and arcs for added creativity
+    fill(this.color2);
+    ellipse(-this.size / 4, -this.size / 4, this.size / 3, this.size / 3);
+    ellipse(this.size / 4, -this.size / 4, this.size / 3, this.size / 3);
+    ellipse(-this.size / 4, this.size / 4, this.size / 3, this.size / 3);
+    ellipse(this.size / 4, this.size / 4, this.size / 3, this.size / 3);
+
+    fill(colors[0]);
+    arc(-this.size / 2, 0, this.size / 2, this.size / 2, 3 * PI / 2, PI / 2);
+    fill(colors[1]);
+    arc(this.size / 2, 0, this.size / 2, this.size / 2, PI / 2, 3 * PI / 2);
+
+    fill(colors[2]);
+    ellipse(0, 0, this.size / 4, this.size / 4);
+
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Apple image in the center
+
+    pop();
+  }
+}
+
+function generateColor() {
+  randomSeed(mySeed); // Ensure colors are consistent
+  return colors[floor(random(0, colors.length))];
+}
+
+/////////////////////////////////
+
+Wallpaper 4:
+
+let colors = ["#614338", "#825399"];
+let mySeed;
+let patterns = [];
+let appleImg;
+
+function preload() {
+  appleImg = loadImage('https://img.pikbest.com/png-images/20190826/a-bunch-of-bananas-cartoon-japanese-vector_2526839.png!sw800'); // Placeholder image for the apple
+}
+
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize; yy <= height - mySize; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = colors[0];
+    this.color2 = colors[1];
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Diagonal line triangles
+    fill(this.color1);
+    triangle(-this.size / 2, -this.size / 2, this.size / 2, -this.size / 2, 0, 0);
+    fill(this.color2);
+    triangle(-this.size / 2, this.size / 2, this.size / 2, this.size / 2, 0, 0);
+
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Apple image in the center
+
+    pop();
+  }
+}
+
+function generateColor() {
+  randomSeed(mySeed); // Ensure colors are consistent
+  return colors[floor(random(0, colors.length))];
+}
+
+/////////////////////////////////
+
+Wallpaper 5:
+
+let colors = ["#deb567", "#825399"];
+let mySeed;
+let patterns = [];
+let appleImg;
+
+function preload() {
+  appleImg = loadImage('https://img.pikbest.com/png-images/20190826/a-bunch-of-bananas-cartoon-japanese-vector_2526839.png!sw800'); // Placeholder image for the apple
+}
+
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  // Draw the large background triangle
+  fill(colors[0]);
+  noStroke();
+  triangle(width / 2, height / 4, width / 4, 3 * height / 4, 3 * width / 4, 3 * height / 4);
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize; yy <= height - mySize; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = colors[0];
+    this.color2 = colors[1];
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Diagonal line triangles
+    fill(this.color1);
+    triangle(-this.size / 2, -this.size / 2, this.size / 2, -this.size / 2, 0, 0);
+    fill(this.color2);
+    triangle(-this.size / 2, this.size / 2, this.size / 2, this.size / 2, 0, 0);
+
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Apple image in the center
+
+    pop();
+  }
+}
+
+function generateColor() {
+  randomSeed(mySeed); // Ensure colors are consistent
+  return colors[floor(random(0, colors.length))];
+}
+
+/////////////////////////////////
+
+Wallpaper 6:
+
+let colors = ["#614338", "#825399", "#ff6f61", "#6b5b95", "#88b04b", "#f7cac9", "#92a8d1"];
+let mySeed;
+let patterns = [];
+let appleImg;
+
+function preload() {
+  appleImg = loadImage('https://img.pikbest.com/png-images/20190826/a-bunch-of-bananas-cartoon-japanese-vector_2526839.png!sw800'); // Placeholder image for the apple
+}
+
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  // Draw the large background triangle
+  fill(colors[0]);
+  noStroke();
+  triangle(width / 2, height / 4, width / 4, 3 * height / 4, 3 * width / 4, 3 * height / 4);
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize; yy <= height - mySize; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.colors = this.generateColors();
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  generateColors() {
+    let chosenColors = [];
+    for (let i = 0; i < 3; i++) {
+      chosenColors.push(colors[floor(random(0, colors.length))]);
+    }
+    return chosenColors;
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Diagonal line triangles
+    fill(this.colors[0]);
+    triangle(-this.size / 2, -this.size / 2, this.size / 2, -this.size / 2, 0, 0);
+    fill(this.colors[1]);
+    triangle(-this.size / 2, this.size / 2, this.size / 2, this.size / 2, 0, 0);
+
+    fill(this.colors[2]);
+    ellipse(0, 0, this.size / 2);
+
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Apple image in the center
+
+    pop();
+  }
+}
+
+function generateColor() {
+  randomSeed(mySeed); // Ensure colors are consistent
+  return colors[floor(random(0, colors.length))];
+}
+
+/////////////////////////////////
+
+Wallpaper 7:
+
+let colors = ["#de2323", "#de6a1e"];
+let mySeed;
+let patterns = [];
+let orangeImg;
+
+function preload() {
+  orangeImg = loadImage('https://static.vecteezy.com/system/resources/thumbnails/019/607/041/small/orange-graphic-clipart-design-free-png.png'); // Placeholder image for the orange
+}
+
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  // Draw the large background triangle
+  fill(colors[0]);
+  noStroke();
+  triangle(width / 2, height / 4, width / 4, 3 * height / 4, 3 * width / 4, 3 * height / 4);
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize; yy <= height - mySize; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = colors[0];
+    this.color2 = colors[1];
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Draw hexagon
+    fill(this.color1);
+    hexagon(0, 0, this.size / 2);
+
+    fill(this.color2);
+    ellipse(0, 0, this.size / 2);
+
+    image(orangeImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Orange image in the center
+
+    pop();
+  }
+}
+
+// Function to draw a hexagon
+function hexagon(x, y, radius) {
+  beginShape();
+  for (let i = 0; i < 6; i++) {
+    let angle = PI / 3 * i;
+    let xOffset = cos(angle) * radius;
+    let yOffset = sin(angle) * radius;
+    vertex(x + xOffset, y + yOffset);
+  }
+  endShape(CLOSE);
+}
+
+/////////////////////////////////
+
+Wallpaper 8:
+
+let colors = ["#de2323", "#de6a1e", "#1e90ff", "#32cd32", "#4682b4", "#2e8b57"];
+let mySeed;
+let patterns = [];
+let appleImg;
+
+function preload() {
+  appleImg = loadImage('https://static.vecteezy.com/system/resources/thumbnails/019/607/041/small/orange-graphic-clipart-design-free-png.png'); // Placeholder image for the apple
+}
+
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  // Draw the large background triangle
+  fill(colors[0]);
+  noStroke();
+  triangle(width / 2, height / 4, width / 4, 3 * height / 4, 3 * width / 4, 3 * height / 4);
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize; yy <= height - mySize; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = colors[floor(random(0, colors.length))];
+    this.color2 = colors[floor(random(0, colors.length))];
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Draw hexagon
+    fill(this.color1);
+    hexagon(0, 0, this.size / 2);
+
+    fill(this.color2);
+    ellipse(0, 0, this.size / 2);
+
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Apple image in the center
+
+    pop();
+  }
+}
+
+// Function to draw a hexagon
+function hexagon(x, y, radius) {
+  beginShape();
+  for (let i = 0; i < 6; i++) {
+    let angle = PI / 3 * i;
+    let xOffset = cos(angle) * radius;
+    let yOffset = sin(angle) * radius;
+    vertex(x + xOffset, y + yOffset);
+  }
+  endShape(CLOSE);
+}
+
+/////////////////////////////////
+
+Wallpaper 9:
+
+let colors = ["#de2323", "#de6a1e", "#1e90ff", "#32cd32", "#4682b4", "#2e8b57"];
+let mySeed;
+let patterns = [];
+let appleImg;
+
+function preload() {
+  appleImg = loadImage('https://static.vecteezy.com/system/resources/thumbnails/019/607/041/small/orange-graphic-clipart-design-free-png.png'); // Placeholder image for the apple
+}
+
+function setup() {
+  createCanvas(1000, 1000);
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  mySeed = 1234; // Fixed seed for consistency
+  let mySize = 200;
+
+  randomSeed(mySeed); // Set the random seed for consistent patterns
+  patterns.push(new Pattern(width / 2, height / 2, width - mySize));
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.5) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  mySize /= 2;
+
+  for (let xx = mySize / 2; xx <= width - mySize / 2; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      if (random(0, 1) > 0.25) {
+        patterns.push(new Pattern(xx, yy, mySize));
+      }
+    }
+  }
+
+  noLoop();
+}
+
+function draw() {
+  randomSeed(mySeed);
+  background(255); // Set a white background for better visibility
+
+  // Draw the large background triangle
+  fill(colors[0]);
+  noStroke();
+  triangle(width / 2, height / 4, width / 4, 3 * height / 4, 3 * width / 4, 3 * height / 4);
+
+  for (let i = 0; i < patterns.length; i++) {
+    patterns[i].draw();
+  }
+
+  let mySize = 2;
+  randomSeed(mySeed); // Ensure the grid points are consistent
+  for (let xx = mySize; xx <= width - mySize; xx += mySize) {
+    for (let yy = mySize / 2; yy <= height - mySize / 2; yy += mySize) {
+      fill(0);
+      noStroke();
+      circle(xx, yy, 0.5);
+    }
+  }
+}
+
+class Pattern {
+  constructor(x, y, mySize) {
+    this.x = x;
+    this.y = y;
+    this.size = mySize;
+    this.color1 = colors[floor(random(0, colors.length))];
+    this.color2 = colors[floor(random(0, colors.length))];
+    randomSeed(mySeed + x + y); // Unique seed for each pattern based on position
+    this.angle = random([0, PI / 2, PI, 3 * PI / 2]);
+  }
+
+  draw() {
+    push();
+    translate(this.x, this.y);
+    rotate(this.angle);
+
+    // Draw hexagon
+    fill(this.color1);
+    hexagon(0, 0, this.size / 2);
+
+    fill(this.color2);
+    ellipse(0, 0, this.size / 2);
+
+    image(appleImg, -this.size / 6, -this.size / 6, this.size / 3, this.size / 3); // Apple image in the center
+
+    // Draw random small geometric shapes (stars)
+    let numStars = int(random(3, 7));
+    for (let i = 0; i < numStars; i++) {
+      let starX = random(-this.size / 2, this.size / 2);
+      let starY = random(-this.size / 2, this.size / 2);
+      let starSize = random(10, 20);
+      fill(this.color1);
+      drawStar(starX, starY, starSize / 2, starSize, 5);
+    }
+
+    pop();
+  }
+}
+
+// Function to draw a hexagon
+function hexagon(x, y, radius) {
+  beginShape();
+  for (let i = 0; i < 6; i++) {
+    let angle = PI / 3 * i;
+    let xOffset = cos(angle) * radius;
+    let yOffset = sin(angle) * radius;
+    vertex(x + xOffset, y + yOffset);
+  }
+  endShape(CLOSE);
+}
+
+// Function to draw a star
+function drawStar(x, y, radius1, radius2, npoints) {
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius2;
+    let sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + halfAngle) * radius1;
+    sy = y + sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
 }
